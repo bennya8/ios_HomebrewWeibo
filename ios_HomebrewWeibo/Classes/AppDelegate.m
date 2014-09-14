@@ -8,18 +8,37 @@
 
 #import "AppDelegate.h"
 #import "InitialController.h"
+#import "AuthController.h"
+#import "AuthWeiboController.h"
+#import "MainController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    application.statusBarStyle = UIStatusBarStyleLightContent;
+    application.statusBarHidden = NO;
     
-    InitialController *initial = [[InitialController alloc]init];
-    [self.window setRootViewController:initial];
+    NSString *releaseVersion = [[NSBundle mainBundle].infoDictionary objectForKey:(NSString *)kCFBundleVersionKey];
     
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults]objectForKey:(NSString *)kCFBundleVersionKey];
+    
+    if ([releaseVersion isEqualToString:lastVersion]) {
+        
+    }else{
+        
+    }
+    
+//    InitialController *initial = [[InitialController alloc]init];
+    
+//    AuthController *auth = [[AuthController alloc]init];
+    
+    
+    MainController *main = [[MainController alloc]init];
+
+    [self.window setRootViewController:main];
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -50,5 +69,6 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
 
 @end
