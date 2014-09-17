@@ -36,9 +36,9 @@
     UINavigationBar *navigationBar = [[UINavigationBar alloc]init];
     navigationBar.frame = CGRectMake(0, 0, 320, 64);
     navigationBar.titleTextAttributes = @{
-//        UITextAttributeFont : [UIFont fontWithName:kAppFont size:18],
-        UITextAttributeTextColor : [UIColor whiteColor],
-        UITextAttributeTextShadowColor : [UIColor whiteColor]
+        NSFontAttributeName : [UIFont fontWithName:kAppFontBold size:20],
+        UITextAttributeFont : [UIColor whiteColor],
+        NSBackgroundColorAttributeName : [UIColor whiteColor]
     };
     [navigationBar setBackgroundImage:[UIImage imageNamed:@"auth_navbar"] forBarMetrics:UIBarMetricsDefault];
     
@@ -93,7 +93,6 @@
 #pragma mark - @private
 - (void)fetchAccessTokenWithCode:(NSString *)code
 {
-    NSLog(@"fetchAccessTokenWithCode %@",code);
     NSString *url = @"https://api.weibo.com/oauth2/access_token";
     NSDictionary *params = @{
         @"client_id" : kWeiboSDKAppKey,
