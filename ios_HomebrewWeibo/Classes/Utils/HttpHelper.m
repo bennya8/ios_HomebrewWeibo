@@ -40,12 +40,29 @@
 
 + (void)sendPutRequestWithUrl:(NSString *)url params:(NSDictionary *)params complete:(completeBlock)complete
 {
-
-}
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (complete) {
+            complete(responseObject,operation.response,nil);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (complete) {
+            complete(nil,operation.response,error);
+        }
+    }];}
 
 + (void)sendDeleteRequestWith:(NSString *)url params:(NSDictionary *)params complete:(completeBlock)complete
 {
-
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager DELETE:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (complete) {
+            complete(responseObject,operation.response,nil);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        if (complete) {
+            complete(nil,operation.response,error);
+        }
+    }];
 }
 
 @end
