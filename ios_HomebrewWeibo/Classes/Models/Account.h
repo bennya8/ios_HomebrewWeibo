@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class User;
+
 @interface Account : NSObject
 
 @property (strong, nonatomic) NSString *access_token;
