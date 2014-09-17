@@ -11,6 +11,7 @@
 #import "AuthController.h"
 #import "AuthWeiboController.h"
 #import "MainController.h"
+#import "Account.h"
 
 @implementation AppDelegate
 
@@ -25,20 +26,25 @@
     
     NSString *lastVersion = [[NSUserDefaults standardUserDefaults]objectForKey:(NSString *)kCFBundleVersionKey];
     
+    
     if ([releaseVersion isEqualToString:lastVersion]) {
-        
+        Account *account = [[Account sharedAccount]unserializeAccount];
+
+        if (account.access_token == nil) {
+            AuthController *auth = [[AuthController alloc]init];
+            [self.window setRootViewController:auth];
+        } else {
+            MainController *main = [[MainController alloc]init];
+            [self.window setRootViewController:main];
+        }
     }else{
+        [[NSUserDefaults standardUserDefaults]setObject:releaseVersion forKey:(NSString *)kCFBundleVersionKey];
+        [[NSUserDefaults standardUserDefaults]synchronize];
         
+        InitialController *initial = [[InitialController alloc]init];
+        [self.window setRootViewController:initial];
     }
     
-//    InitialController *initial = [[InitialController alloc]init];
-    
-//    AuthController *auth = [[AuthController alloc]init];
-    
-    
-    MainController *main = [[MainController alloc]init];
-
-    [self.window setRootViewController:main];
     [self.window makeKeyAndVisible];
     return YES;
 }
