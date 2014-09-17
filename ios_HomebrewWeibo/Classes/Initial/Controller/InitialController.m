@@ -8,6 +8,8 @@
 
 #import "InitialController.h"
 #import "AuthController.h"
+#import "MainController.h"
+#import "Account.h"
 
 #define kInitialPageCount 4
 
@@ -110,7 +112,7 @@
             [button setBackgroundImage:normalImage forState:UIControlStateNormal];
             
              /* #1d6ef1 */
-            [button setTitleColor:[UIColor colorWithRed:0.114 green:0.431 blue:0.945 alpha:1] forState:UIControlStateHighlighted];
+            [button setTitleColor:kAppColorLightBlue forState:UIControlStateHighlighted];
             [button setBackgroundImage:selectImage forState:UIControlStateHighlighted];
             
             [button addTarget:self action:@selector(touchStartButton:) forControlEvents:UIControlEventTouchUpInside];
@@ -144,7 +146,12 @@
 #pragma mark - 事件
 - (void)touchStartButton:(UIButton *)sender
 {
-    self.view.window.rootViewController = [[AuthController alloc]init];
+    Account *account = [[Account sharedAccount]unserializeAccount];
+    if (account.access_token == nil) {
+        [self.view.window setRootViewController:[[AuthController alloc]init]];
+    } else {
+        [self.view.window setRootViewController:[[MainController alloc] init]];
+    }
 }
 
 @end
