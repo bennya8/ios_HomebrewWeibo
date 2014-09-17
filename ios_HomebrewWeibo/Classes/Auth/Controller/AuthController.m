@@ -8,7 +8,9 @@
 
 #import "AuthController.h"
 #import "AuthWeiboController.h"
+#import "MainController.h"
 #import "Account.h"
+#import "UserHelper.h"
 
 @interface AuthController () <AuthWeiboControllerDelegate>
 
@@ -31,11 +33,6 @@
     [self addTitleContent];
     
     [self addAuthButton];
-    
-    
-    
-    Account *account = [[Account sharedAccount]unserializeAccount];
-    NSLog(@"%@",account);
 }
 
 #pragma mark - 初始化组件
@@ -89,17 +86,9 @@
 #pragma mark - 事件
 - (void)touchAuthButton:(UIButton *)sender
 {
-    
-//    [HttpHelper sendGetRequestWithUrl:@"http://mrobot.pconline.com.cn/v2/cms/channels/1" params:nil complete:^(id data, NSURLResponse *response, NSError *error) {
-//        if (!error) {
-//            
-//        }
-//    }];
-
     AuthWeiboController *authWeibo = [[AuthWeiboController alloc]init];
     authWeibo.authWeibodelegate = self;
     [self presentViewController:authWeibo animated:YES completion:nil];
-    
 }
 
 - (void)authWeiboDidSuccess:(AuthWeiboController *)controller data:(NSData *)data response:(NSURLResponse *)response
@@ -107,9 +96,13 @@
     Account *account = [Account sharedAccount];
     [account setValuesForKeysWithDictionary:(NSDictionary *)data];
     [account serializeAccount];
+    
     [controller dismissViewControllerAnimated:YES completion:^{
         
+        MainController *main = [[MainController alloc]init];
+        self.view.window.rootViewController = main;
     }];
+
 }
 
 - (void)authWeiboDidFail:(AuthWeiboController *)controller error:(NSError *)error response:(NSURLResponse *)response
